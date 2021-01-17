@@ -2,9 +2,9 @@ import { Component } from 'react';
 
 export default class Feedback extends Component {
   static defaultProps = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+    good: 3,
+    neutral: 4,
+    bad: 5,
   };
 
   state = {
@@ -14,13 +14,24 @@ export default class Feedback extends Component {
   };
   onAddVote = e => {
     this.setState(prevState => {
-      console.log(e.target);
+      // console.log(e.target);
       return { [e.target.name]: prevState[e.target.name] + 1 };
     });
   };
 
+  onTotalVote = () => {
+    return Object.values(this.state).reduce((acc, value) => acc + value, 0);
+  };
+
+  onRatioFeedback = sumFeedback => {
+    const { good } = this.state;
+    return Math.round((good / sumFeedback) * 100);
+  };
+
   render() {
     const { good, neutral, bad } = this.state;
+    const total = this.onTotalVote();
+    const ratio = this.onRatioFeedback(total);
     console.log(this.state);
     return (
       <div>
@@ -38,9 +49,11 @@ export default class Feedback extends Component {
 
         <ul>
           <h2>Statistics</h2>
-          <p>{good}</p>
-          <p>{neutral}</p>
-          <p>{bad}</p>
+          <p>Good: {good}</p>
+          <p>Neutral: {neutral}</p>
+          <p>Bad: {bad}</p>
+          <p>Total: {total}</p>
+          <p>Positive feedback: {ratio}%</p>
         </ul>
       </div>
     );
