@@ -1,48 +1,35 @@
 import { Component } from 'react';
 
 export default class Feedback extends Component {
-  static defaultProps = {
-    good: 3,
-    neutral: 4,
-    bad: 5,
-  };
-
-  state = {
-    good: this.props.good,
-    neutral: this.props.neutral,
-    bad: this.props.bad,
-  };
-  onAddVote = e => {
-    this.setState(prevState => {
-      // console.log(e.target);
-      return { [e.target.name]: prevState[e.target.name] + 1 };
-    });
-  };
-
   onTotalVote = () => {
-    return Object.values(this.state).reduce((acc, value) => acc + value, 0);
+    const { good, neutral, bad } = this.props;
+    return Object.values({ good, neutral, bad }).reduce(
+      (acc, value) => acc + value,
+      0,
+    );
   };
 
   onRatioFeedback = sumFeedback => {
-    const { good } = this.state;
+    const { good } = this.props;
     return Math.round((good / sumFeedback) * 100);
   };
 
   render() {
-    const { good, neutral, bad } = this.state;
+    const { good, neutral, bad, callback } = this.props;
     const total = this.onTotalVote();
+    console.log(callback);
     const ratio = this.onRatioFeedback(total);
-    console.log(this.state);
+    console.log(this.props);
     return (
       <div>
         <div>
-          <button type="button" name="good" onClick={this.onAddVote}>
+          <button type="button" name="good" onClick={callback}>
             good
           </button>
-          <button type="button" name="neutral" onClick={this.onAddVote}>
+          <button type="button" name="neutral" onClick={callback}>
             neutral
           </button>
-          <button type="button" name="bad" onClick={this.onAddVote}>
+          <button type="button" name="bad" onClick={callback}>
             bad
           </button>
         </div>
