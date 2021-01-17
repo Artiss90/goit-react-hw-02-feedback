@@ -1,3 +1,5 @@
+/* eslint react/prop-types: 1 */
+
 import { Component } from 'react';
 import Feedback from './Components/Feedback';
 import PropTypes from 'prop-types';
@@ -13,11 +15,10 @@ class App extends Component {
 
   render() {
     const { title } = this.state;
-    console.log(this.state.title);
     return (
       <div className={style.head}>
-        <h1>{title}</h1>
-        <Feedback good={2} neutral={2} bad={3} />
+        {title && <h1>{title}</h1>}
+        <Feedback />
       </div>
     );
   }
