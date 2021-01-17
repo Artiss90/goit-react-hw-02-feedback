@@ -1,10 +1,17 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import Sections from './Components/Sections';
-// import Feedback from './Components/Feedback';
 import FeedbackOptions from './Components/FeedbackOptions/FeedbackOptions';
 import Statistics from './Components/Statistics/Statistics';
+import Notification from './Components/Notification/Notification';
+/* eslint react/prop-types: 1 */
 
 class App extends Component {
+  static propTypes = {
+    good: PropTypes.number,
+    neutral: PropTypes.number,
+    bad: PropTypes.number,
+  };
   static defaultProps = {
     good: 0,
     neutral: 0,
@@ -40,6 +47,8 @@ class App extends Component {
     const { good, neutral, bad } = this.state;
     const total = this.onTotalVote();
     const ratio = this.onRatioFeedback(total);
+    console.log(total);
+    // const showStatistics = total = 0? "No feedback given"
     return (
       <>
         <Sections title="Please leave feedback">
@@ -49,13 +58,15 @@ class App extends Component {
           />
         </Sections>
         <Sections title="Statistics">
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={total}
-            ratio={ratio}
-          />
+          <Notification message={total === 0 && 'No feedback given'}>
+            <Statistics
+              good={good}
+              neutral={neutral}
+              bad={bad}
+              total={total}
+              ratio={ratio}
+            />
+          </Notification>
         </Sections>
       </>
     );

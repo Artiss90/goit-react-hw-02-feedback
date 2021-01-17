@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+}
+.button {
+  border-radius: 4px;
+  outline: none;
+}
+.button:hover,
+.button:focus-within {
+  background-color: rgb(127, 187, 255);
+}
